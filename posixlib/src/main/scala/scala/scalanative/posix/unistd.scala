@@ -3,6 +3,7 @@ package posix
 
 import scalanative.unsafe._
 import scalanative.posix.sys.stat.{uid_t, gid_t}
+import scalanative.posix.sys.types.pid_t
 
 @extern
 object unistd {
@@ -22,7 +23,8 @@ object unistd {
   def ftruncate(fildes: CInt, length: off_t): CInt                = extern
   def getcwd(buf: CString, size: CSize): CString                  = extern
   def gethostname(name: CString, len: CSize): CInt                = extern
-  def getpid(): CInt                                              = extern
+  def getpid(): pid_t                                             = extern
+  def getppid(): pid_t                                            = extern
   def getuid(): uid_t                                             = extern
   def lseek(fildes: CInt, offset: off_t, whence: CInt): off_t     = extern
   def pipe(fildes: Ptr[CInt]): CInt                               = extern
