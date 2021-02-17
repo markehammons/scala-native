@@ -24,20 +24,30 @@ object GCExtern {
   def alloc_atomic(rawty: RawPtr, size: CSize): RawPtr = extern
   @name("scalanative_collect")
   def collect(): Unit = extern
+
+}
+
+trait GCImpl {
+  def init: Unit
+  def alloc(rawty: RawPtr, size: CSize): RawPtr
+  def alloc_small(rawty: RawPtr, size: CLong): RawPtr
+  def alloc_large(rawty: RawPtr, size: CLong): RawPtr
+  def alloc_atomic(rawty: RawPtr, size: CSize): RawPtr
+  def collect(): Unit
 }
 
 object GC {
   def init(): Unit = {
-    GCExtern.init()
+    GCNone.init()
   }
-  def alloc(rawty: RawPtr, size: CSize): RawPtr = GCExtern.alloc(rawty, size)
+  def alloc(rawty: RawPtr, size: CSize): RawPtr = GCNone.alloc(rawty, size)
   def alloc_small(rawty: RawPtr, size: CLong): RawPtr = {
-    GCExtern.alloc_small(rawty, size)
+    GCNone.alloc_small(rawty, size)
   }
   def alloc_large(rawty: RawPtr, size: CLong): RawPtr = {
-    GCExtern.alloc_large(rawty, size)
+    GCNone.alloc_large(rawty, size)
   }
   def alloc_atomic(rawty: RawPtr, size: CSize): RawPtr =
-    GCExtern.alloc_atomic(rawty, size)
-  def collect(): Unit = GCExtern.collect()
+    GCNone.alloc_atomic(rawty, size)
+  def collect(): Unit = GCNone.collect()
 }
